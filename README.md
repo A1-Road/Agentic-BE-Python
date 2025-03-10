@@ -1,44 +1,71 @@
-# Fetch Wallet Data (English Version)
+# Agentic-BE-Python
 
-This project provides a Python script to set up an AI agent for fetching Ethereum transaction details.
+**English** | [日本語](#japanese)
 
-## File Structure
+Agentic-BE-Python is the backend component of the Agentic project built using the [FastAPI](https://fastapi.tiangolo.com/) framework. It is a server that accepts requests from Agentic-BE-TS.
 
-- `fetch_wallet_data.py`: Main script for fetching Ethereum transaction details.
-- `check_reputation.py`: Script for checking reputation based on commands.
+## Endpoints
 
-## Required Libraries
+- **POST** `/parse_instruction`: Parses transaction instructions.
+- **GET** `/check_reputation`: Checks the reputation of an Ethereum address.  
+For more details, please refer to [this page](https://cooperative-chive-de7.notion.site/API-Endpoints-1ab0382e4479809d9305df9cde8ed5ef?pvs=4).
 
-This script uses the following libraries:
+## Setup
 
-- `langchain_core`
-- `pydantic`
-- `langchain_openai`
-- `dotenv`
-- `cdp_langchain`
-- `flask`
+1. **Clone the repository:**
 
-## Environment Variables Setup
+   ```bash
+   git clone https://github.com/A1-Road/Agentic-BE-Python.git
+   cd Agentic-BE-Python
+   ```
 
-The script uses environment variables for configuration. Create a `.env` file and set the necessary environment variables.
+2. **Install dependencies:**
 
-## Script Description
+   ```bash
+   python -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
 
-### `fetch_wallet_data.py`
+3. **Create the env files:**
 
-This script analyzes the details of an Ethereum transaction input by the user and generates output according to the specified format.
+   ```bash
+   cp .env.template .env
+   cp src/env.template.py src/env.py
+   ```
 
-### Input
+   Modify the variables as needed.
 
-The user inputs a prompt containing the details of an Ethereum transaction. For example:
+4. **Install the VSCode extension:**
+   - Black Formatter
+
+## How to Run
+
+Run the server using the following command:
+
+```
+uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+Once the server is running, you can test the API using Swagger UI at `http://localhost:8000/docs`.
+
+## Script Explanation (Not Updated)
+
+### `parse_instruction.py`
+
+This script parses the details of an Ethereum transaction entered by the user and generates output in a specified format.
+
+#### Input
+
+The user provides a prompt containing details of an Ethereum transaction. For example:
 
 ```plaintext
 Send 0.0005 ETH to 0xA2dBbc0EAE6c0402BF2E59d5A100dD7C9395539a
 ```
 
-### Output
+#### Output
 
-The script generates transaction information based on the input prompt and returns the following output:
+Based on the input prompt, the script generates transaction information and returns an output similar to:
 
 ```json
 {
@@ -47,17 +74,17 @@ The script generates transaction information based on the input prompt and retur
 }
 ```
 
-### Script Flow
+#### Script Flow
 
 1. Import necessary libraries and load environment variables.
 2. Instantiate the `ChatOpenAI` model.
-3. Define the `EthTransaction` Pydantic model.
+3. Define a Pydantic model called `EthTransaction`.
 4. Create a `PydanticOutputParser`.
-5. Generate format instructions.
+5. Generate formatting instructions.
 6. Set up the prompt template.
 7. Create and execute the langchain.
 
-Here is the main part of the script:
+Below is the main part of the script:
 
 ```python
 # filepath: /workspaces/codespaces-jupyter/Agentic/backend/fetch_wallet_data.py
@@ -66,9 +93,9 @@ Here is the main part of the script:
 
 ### `check_reputation.py`
 
-This script checks reputation based on a command and returns the result.
+This script checks the reputation based on a given command and returns the result.
 
-### Input
+#### Input
 
 The user inputs a command to check reputation. For example:
 
@@ -76,9 +103,9 @@ The user inputs a command to check reputation. For example:
 Check the reputation of 0xA2dBbc0EAE6c0402BF2E59d5A100dD7C9395539a
 ```
 
-### Output
+#### Output
 
-The script generates reputation information based on the input command and returns the following output:
+Based on the input command, the script generates reputation information and returns output such as:
 
 ```json
 {
@@ -86,27 +113,27 @@ The script generates reputation information based on the input command and retur
 }
 ```
 
-### Script Flow
+#### Script Flow
 
 1. Import necessary libraries and load environment variables.
 2. Instantiate the `CdpAgentkitWrapper`.
 3. Create the `CdpToolkit`.
 4. Instantiate the `ChatOpenAI` model.
 5. Create and execute the agent.
-6. Set up and run the Flask application.
+6. Configure and run the Flask application.
 
-Here is the main part of the script:
+Below is the main part of the script:
 
 ```python
 # filepath: /workspaces/codespaces-jupyter/Agentic/backend/in_progress_takara/check_reputation.py
 // ...existing code...
 ```
 
-## How to Run
+## How to Run the Scripts
 
-1. Install the required libraries.
-2. Create a `.env` file and set the necessary environment variables.
-3. Run the script.
+1. Install the necessary libraries.
+2. Create a `.env` file and set the required environment variables.
+3. Run the script:
 
 ```bash
 python fetch_wallet_data.py
@@ -118,37 +145,63 @@ or
 python check_reputation.py
 ```
 
-This script analyzes the details of the command input by the user and generates output according to the specified format.
+This script parses the details of the command input by the user and generates output following the specified format.
 
 ---
 
-# Fetch Wallet Data
+# Japanese
 
-このプロジェクトは、Ethereumトランザクションの詳細を取得するためのAIエージェントを設定するPythonスクリプトを提供します。
+[English](#agentic-be-python) | **日本語**
 
-## ファイル構成
+Agentic-BE-Pythonは、[FastAPI](https://fastapi.tiangolo.com/)フレームワークを使用して構築されたAgenticプロジェクトのバックエンドコンポーネントです。
+Agentic-BE-TSからのリクエストを受け付けるサーバーです。
 
-- `fetch_wallet_data.py`: Ethereumトランザクションの詳細を取得するためのメインスクリプト。
-- `check_reputation.py`: コマンドに基づいて評判をチェックするためのスクリプト。
+## エンドポイント
 
-## 必要なライブラリ
+- POST `/parse_instruction`: トランザクション指示を解析します
+- GET `/check_reputation`: Ethereumアドレスの評判をチェックします
+詳細は[こちら](https://cooperative-chive-de7.notion.site/API-Endpoints-1ab0382e4479809d9305df9cde8ed5ef?pvs=4)です。
 
-このスクリプトは以下のライブラリを使用しています：
+## セットアップ
 
-- `langchain_core`
-- `pydantic`
-- `langchain_openai`
-- `dotenv`
-- `cdp_langchain`
-- `flask`
+1. **リポジトリをクローンする：**
 
-## 環境変数の設定
+   ```bash
+   git clone https://github.com/A1-Road/Agentic-BE-Python.git
+   cd Agentic-BE-Python
+   ```
 
-スクリプトは環境変数を使用して設定を読み込みます。`.env` ファイルを作成し、必要な環境変数を設定してください。
+2. **依存関係をインストールする：**
 
-## スクリプトの説明
+   ```bash
+   python -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
 
-### `fetch_wallet_data.py`
+3. **envファイルを作成する：**
+
+   ```bash
+   cp .env.template .env
+   cp src/env.template.py src/env.py
+   ```
+
+   各変数を書き換えて下さい。
+
+4. **VSCodeの拡張機能をインストールする**
+   - Black Formatter
+
+## 実行方法
+
+```
+uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+サーバーが起動したら、`http://localhost:8000/docs` でSwagger UIを通じてAPIをテストできます。
+
+## スクリプトの説明（未更新）
+
+### `parse_instruction.py`
 
 このスクリプトは、ユーザーが入力したEthereumトランザクションの詳細を解析し、指定されたフォーマットに従って出力を生成します。
 
